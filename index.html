@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversor dólar, real y peso</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Conversor">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAYFBMVEX6+/j19/Po6ebn6OXm5+Tl5+Ta3NnMzsuipqOeoZ+cn5yTl5SIjYmIjImFiYZ+gX97f3x0eHZydnNxdXJma2hVWldUWVZRV1RQVlNHTEpFSkhESkdDSUY9Q0AkKicWHRoTbkukAAACAElEQVR42u3a7W7CMAyFYYuBCBTG1vIxCsP3f5ebtGkS4ldTx6nH6xvo86uJz4lowBHQoEGDBg0aNGjQoEGDBg0aNGjQoEGDBg0aNGjQoEGDBj10Lm17DYY+zeV7FsdI6I38ThMHfZC/WUdB317ETO2G3ouYqd3QO7FTu6FbsVO7oc9ip/b7eyzt1H7oXszUjodLY6b2PMaTldr1wmSl9r3lGamd79M2au8lwETtvrlYqP3XLQN1hR1xvLrGYjtaXWUbH6uuEyGMVMuwBGBrM5vZKLUMTQCKzboEeiuFp7FHH6T4fFij7xKAQrO4GaP34jB7Y/TOA/1mjO480J0x+uyB7q3/Hsvy5qX5L68vj/4MeLi8ljjGj7OS5Plp6hemh+mutFugQYMGDRo0aNCgQYMGDRr0v0GXixDaUhFC2c5lyGtOGf7qstRs6VyUzoXORelc6FyerHNpQnYuSSJ2LquHL8020+9ckhi+3Ha7T09ELRpQLRpQLRpQLRpQLRpQLRpQLRpQLRpQLRpQnZswrUa8uqwXi6X8BKBilpeyE4CaAWTKTQCqpqYpMwGoG/WmvASgcj59r74ECdVTTgJQvQlIGQlA/fqiGZ4ATKBz+XnNOSQBmERR1L93F1XaLdCgQYMGDRo0aNCgQYMGDRo0aNCgQYMGDRo0aNCgQYN+AvQXFsHDivJFEmoAAAAASUVORK5CYII=">
+<meta name="theme-color" content="#EDEFEA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1210" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23161D1A'/%3E%3Cpath d='M8 12h15l-3.5-3.5M24 20H9l3.5 3.5' fill='none' stroke='%23FAFBF8' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400..900&amp;display=swap">
+<style>
+:root {
+  /* Layout: one phone-width column. Three currency rows form the board;
+     the row being typed in turns into a solid ink slab. Switch and rate table sit below. */
+  --paper: #EDEFEA;
+  --card: #FAFBF8;
+  --ink: #161D1A;
+  --ink-soft: #5C6862;
+  --rule: #D3D9D3;
+  --slab-text: #FAFBF8;
+  --slab-ring: rgba(250, 251, 248, 0.3);
+  --ok: #1B7F5A;
+  --warn: #8A4A00;
+  --warn-bg: #FBEBD3;
+  --font-text: "Chivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0D1210;
+    --card: #161C19;
+    --ink: #ECF0ED;
+    --ink-soft: #9AA69F;
+    --rule: #2B3430;
+    --slab-text: #121815;
+    --slab-ring: rgba(18, 24, 21, 0.25);
+    --ok: #4CC38A;
+    --warn: #F2B15C;
+    --warn-bg: #33260F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0D1210;
+  --card: #161C19;
+  --ink: #ECF0ED;
+  --ink-soft: #9AA69F;
+  --rule: #2B3430;
+  --slab-text: #121815;
+  --slab-ring: rgba(18, 24, 21, 0.25);
+  --ok: #4CC38A;
+  --warn: #F2B15C;
+  --warn-bg: #33260F;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+[hidden] { display: none !important; }
+
+.app {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 20px 16px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Encabezado */
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  min-height: 34px;
+}
+h1 {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  padding: 6px 11px 6px 9px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+.punto {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-soft);
+}
+.estado[data-tono="ok"] .punto { background: var(--ok); }
+.estado[data-tono="alerta"] {
+  color: var(--warn);
+  background: var(--warn-bg);
+  border-color: currentColor;
+}
+.estado[data-tono="alerta"] .punto {
+  background: var(--warn);
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+
+/* Tablero de importes */
+.tablero {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.fila {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) 28px;
+  align-items: center;
+  column-gap: 12px;
+  min-height: 76px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--rule);
+  cursor: text;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+.fila:first-child { border-top: 0; }
+.fila.es-base {
+  background: var(--ink);
+  color: var(--slab-text);
+}
+.bandera {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--rule);
+}
+.es-base .bandera { box-shadow: 0 0 0 1px var(--slab-ring); }
+.moneda {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: text;
+}
+.codigo {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+}
+.nombre {
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--ink-soft);
+}
+.es-base .nombre { color: inherit; opacity: 0.72; }
+.monto {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  caret-color: currentColor;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-align: right;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.monto::placeholder { color: var(--ink-soft); opacity: 0.55; }
+.es-base .monto::placeholder { color: inherit; opacity: 0.45; }
+.monto:focus-visible { box-shadow: 0 2px 0 currentColor; }
+.borrar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 -6px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  visibility: hidden;
+}
+.borrar svg {
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  border-radius: 50%;
+  background: var(--slab-ring);
+}
+.fila.es-base.con-monto .borrar { visibility: visible; }
+.borrar:focus-visible { outline: 2px solid currentColor; outline-offset: -5px; }
+
+/* Compra / venta */
+.segmento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+}
+.segmento button {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.segmento button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--slab-text);
+}
+.segmento button:focus-visible,
+.boton:focus-visible,
+.pie a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.ayuda {
+  margin: 8px 2px 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* Avisos */
+.aviso {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid currentColor;
+  border-radius: 14px;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Pizarra de cotizaciones */
+.pizarra {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  padding: 4px 16px 6px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 11px 0;
+  text-align: right;
+  vertical-align: top;
+}
+th:first-child { text-align: left; }
+thead th {
+  padding: 12px 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+thead th.activa { color: var(--ink); }
+tbody tr { border-top: 1px solid var(--rule); }
+tbody th {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+td {
+  padding-left: 14px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+td.activa {
+  color: var(--ink);
+  font-weight: 600;
+}
+.marca {
+  display: inline-block;
+  margin-left: 3px;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: var(--warn);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+
+.boton {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.boton[disabled] { color: var(--ink-soft); cursor: default; }
+
+.pie {
+  margin: 0 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.pie a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fila { transition: none; }
+}
+</style>
+</head>
+<body>
+<main class="app">
+
+  <header class="top">
+    <h1>Conversor</h1>
+    <div class="estado" id="estado" role="status" aria-live="polite" data-tono="neutro">
+      <span class="punto" aria-hidden="true"></span>
+      <span id="estado-texto">Cargando cotizaciones…</span>
+    </div>
+  </header>
+
+  <section class="tablero" aria-label="Importes">
+    <div class="fila es-base" data-moneda="USD">
+      <svg class="bandera" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <clipPath id="recorte-usd"><circle cx="15" cy="15" r="15"></circle></clipPath>
+        <g clip-path="url(#recorte-usd)">
+          <rect width="30" height="30" fill="#FFFFFF"></rect>
+          <path fill="#B22234" d="M0 0h30v2.31H0zM0 4.62h30v2.31H0zM0 9.23h30v2.31H0zM0 13.85h30v2.31H0zM0 18.46h30v2.31H0zM0 23.08h30v2.31H0zM0 27.69h30V30H0z"></path>
+          <rect width="15" height="16.15" fill="#3C3B6E"></rect>
+        </g>
+      </svg>
+      <label class="moneda" for="monto-USD">
+        <span class="codigo">USD</span>
+        <span class="nombre">Dólar</span>
+      </label>
+      <input class="monto" id="monto-USD" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0" value="1">
+      <button type="button" class="borrar" id="borrar-USD" aria-label="Borrar importe en dólares"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 8l8 8M16 8l-8 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg></button>
+    </div>
+    <div class="fila" data-moneda="BRL">
+      <svg class="bandera" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <clipPath id="recorte-brl"><circle cx="15" cy="15" r="15"></circle></clipPath>
+        <g clip-path="url(#recorte-brl)">
+          <rect width="30" height="30" fill="#009C3B"></rect>
+          <path fill="#FFDF00" d="M15 4.5 27 15 15 25.5 3 15z"></path>
+          <circle cx="15" cy="15" r="5.2" fill="#002776"></circle>
+        </g>
+      </svg>
+      <label class="moneda" for="monto-BRL">
+        <span class="codigo">BRL</span>
+        <span class="nombre">Real</span>
+      </label>
+      <input class="monto" id="monto-BRL" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0">
+      <button type="button" class="borrar" id="borrar-BRL" aria-label="Borrar importe en reales"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 8l8 8M16 8l-8 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg></button>
+    </div>
+    <div class="fila" data-moneda="ARS">
+      <svg class="bandera" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <clipPath id="recorte-ars"><circle cx="15" cy="15" r="15"></circle></clipPath>
+        <g clip-path="url(#recorte-ars)">
+          <rect width="30" height="30" fill="#74ACDF"></rect>
+          <rect y="10" width="30" height="10" fill="#FFFFFF"></rect>
+          <circle cx="15" cy="15" r="2.6" fill="#F6B40E"></circle>
+        </g>
+      </svg>
+      <label class="moneda" for="monto-ARS">
+        <span class="codigo">ARS</span>
+        <span class="nombre">Peso</span>
+      </label>
+      <input class="monto" id="monto-ARS" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0">
+      <button type="button" class="borrar" id="borrar-ARS" aria-label="Borrar importe en pesos"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 8l8 8M16 8l-8 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg></button>
+    </div>
+  </section>
+
+  <section aria-label="Cotización a usar">
+    <div class="segmento" role="group" aria-label="Cotización a usar">
+      <button type="button" id="modo-venta" data-modo="venta" aria-pressed="true">Venta</button>
+      <button type="button" id="modo-compra" data-modo="compra" aria-pressed="false">Compra</button>
+    </div>
+    <p class="ayuda" id="modo-ayuda">Precio al que te venden dólares o reales.</p>
+  </section>
+
+  <p class="aviso" id="aviso" role="alert" hidden></p>
+
+  <section class="pizarra">
+    <table aria-label="Cotizaciones oficiales">
+      <thead>
+        <tr>
+          <th scope="col">Cotizaciones oficiales</th>
+          <th scope="col" id="col-compra">Compra</th>
+          <th scope="col" id="col-venta" class="activa">Venta</th>
+        </tr>
+      </thead>
+      <tbody id="pizarra-cuerpo">
+        <tr><th scope="row">Dólar oficial<span class="sub">en pesos</span></th><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Real oficial<span class="sub">en pesos</span></th><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Dólar PTAX<span class="sub">en reales</span></th><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <button type="button" class="boton" id="actualizar" hidden>Actualizar cotizaciones</button>
+
+  <p class="pie">Fuentes: <a href="https://dolarapi.com" rel="noopener">DolarApi</a> (dólar y real oficial en pesos) y <a href="https://www.bcb.gov.br" rel="noopener">Banco Central do Brasil</a> (dólar PTAX).</p>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var ORDEN = ['USD', 'BRL', 'ARS'];
+  var PARES = ['usdars', 'brlars', 'usdbrl'];
+  var MAX_ENTEROS = 12;
+  var MAX_DECIMALES = 6;
+  var CLAVE_ESTADO = 'conversor-oficial:estado';
+  var CLAVE_COTIZ = 'conversor-oficial:cotizaciones';
+  var DOC_COTIZ = 'cotizaciones/actual';
+  var VENCE_MS = 5 * 24 * 60 * 60 * 1000;
+  var REINTENTO_MS = 10 * 60 * 1000;
+  /* Límites de cordura por par: cualquier valor fuera de rango se descarta. */
+  var RANGOS = { usdars: [50, 1000000], brlars: [5, 200000], usdbrl: [0.5, 100] };
+  var DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+  var FILAS = [
+    { par: 'usdars', oficial: 'Dólar oficial', simple: 'Dólar', en: 'en pesos' },
+    { par: 'brlars', oficial: 'Real oficial', simple: 'Real', en: 'en pesos' },
+    { par: 'usdbrl', oficial: 'Dólar PTAX', simple: 'Dólar', en: 'en reales' }
+  ];
+
+  /* ---------- Números ---------- */
+
+  function agrupar(enteros) {
+    return enteros.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
+  /* "1234,5" (forma cruda) -> "1.234,5" */
+  function aTexto(crudo) {
+    if (!crudo) return '';
+    var i = crudo.indexOf(',');
+    return i < 0 ? agrupar(crudo) : agrupar(crudo.slice(0, i)) + ',' + crudo.slice(i + 1);
+  }
+
+  function aNumero(crudo) {
+    if (!crudo || crudo === ',') return null;
+    var n = Number(crudo.replace(',', '.'));
+    return isFinite(n) ? n : null;
+  }
+
+  function fijo(n, decimales, minimo) {
+    var partes = n.toFixed(decimales).split('.');
+    var d = partes[1] || '';
+    while (d.length > minimo && d.charAt(d.length - 1) === '0') d = d.slice(0, -1);
+    return agrupar(partes[0]) + (d ? ',' + d : '');
+  }
+
+  function fmtMonto(n) {
+    if (n == null || !isFinite(n)) return '';
+    var a = Math.abs(n);
+    if (a === 0) return '0';
+    if (a >= 1) return fijo(a, 2, 2);
+    if (a >= 0.01) return fijo(a, 4, 2);
+    return fijo(a, 6, 2);
+  }
+
+  function fmtCotiz(n) {
+    if (n == null || !isFinite(n)) return '—';
+    if (n >= 1000) return fijo(n, 2, 0);
+    if (n >= 100) return fijo(n, 2, 2);
+    return fijo(n, 4, 2);
+  }
+
+  /* Limpia lo tipeado y devuelve la forma cruda, el texto con puntos de miles
+     y dónde tiene que quedar el cursor. Un punto recién tipeado vale como coma. */
+  function limpiar(valor, cursor, previo, dato) {
+    var s = String(valor);
+    var c = cursor == null ? s.length : Math.max(0, Math.min(cursor, s.length));
+    var tipeoPunto = false;
+    if (c > 0 && s.charAt(c - 1) === '.') {
+      if (typeof dato === 'string') tipeoPunto = dato === '.';
+      else tipeoPunto = s.length === previo.length + 1 && previo === s.slice(0, c - 1) + s.slice(c);
+    }
+    if (tipeoPunto) s = s.slice(0, c - 1) + ',' + s.slice(c);
+
+    var crudo = '';
+    var antes = 0;
+    var coma = false;
+    var enteros = 0;
+    var decimales = 0;
+    for (var i = 0; i < s.length; i++) {
+      var ch = s.charAt(i);
+      var vale = false;
+      if (ch >= '0' && ch <= '9') {
+        if (coma) {
+          if (decimales < MAX_DECIMALES) { vale = true; decimales++; }
+        } else if (enteros < MAX_ENTEROS) {
+          vale = true;
+          enteros++;
+        }
+      } else if (ch === ',' && !coma) {
+        vale = true;
+        coma = true;
+      }
+      if (vale) {
+        crudo += ch;
+        if (i < c) antes++;
+      }
+    }
+
+    var iComa = crudo.indexOf(',');
+    var parteEntera = iComa < 0 ? crudo : crudo.slice(0, iComa);
+    var resto = iComa < 0 ? '' : crudo.slice(iComa);
+    var sinCeros = parteEntera.replace(/^0+(?=\d)/, '');
+    var quitados = parteEntera.length - sinCeros.length;
+    if (quitados) antes = Math.max(0, antes - Math.min(quitados, antes));
+    if (!sinCeros && resto) {
+      sinCeros = '0';
+      if (antes > 0) antes++;
+    }
+    crudo = sinCeros + resto;
+
+    var texto = aTexto(crudo);
+    var pos = 0;
+    var cuenta = 0;
+    while (pos < texto.length && cuenta < antes) {
+      if (texto.charAt(pos) !== '.') cuenta++;
+      pos++;
+    }
+    return { crudo: crudo, texto: texto, cursor: pos };
+  }
+
+  /* Interpreta un número pegado en formato argentino o estadounidense. */
+  function dePegado(texto) {
+    var t = String(texto == null ? '' : texto).replace(/[^\d.,]/g, '');
+    if (!/\d/.test(t)) return null;
+    var uPunto = t.lastIndexOf('.');
+    var uComa = t.lastIndexOf(',');
+    var sep = null;
+    if (uPunto >= 0 && uComa >= 0) {
+      sep = uPunto > uComa ? '.' : ',';
+    } else if (uComa >= 0) {
+      if (t.split(',').length === 2) sep = ',';
+    } else if (uPunto >= 0) {
+      var p = t.split('.');
+      if (p.length === 2 && (p[1].length !== 3 || p[0] === '' || p[0] === '0')) sep = '.';
+    }
+    var entera = t;
+    var decimal = '';
+    if (sep) {
+      var i = t.lastIndexOf(sep);
+      entera = t.slice(0, i);
+      decimal = t.slice(i + 1);
+    }
+    entera = entera.replace(/[.,]/g, '');
+    decimal = decimal.replace(/[.,]/g, '');
+    var canon = entera + (decimal ? ',' + decimal : '');
+    return limpiar(canon, canon.length, '', null).crudo;
+  }
+
+  /* ---------- Fechas ---------- */
+
+  function dosDigitos(n) { return (n < 10 ? '0' : '') + n; }
+
+  function normFecha(x) {
+    if (typeof x !== 'string' || !x) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(x)) return x;
+    var m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(x);
+    if (m) return m[3] + '-' + dosDigitos(+m[2]) + '-' + dosDigitos(+m[1]);
+    var d = new Date(x);
+    return isNaN(d.getTime()) ? null : d.toISOString();
+  }
+
+  function aFecha(iso) {
+    if (!iso) return null;
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+    var d = m ? new Date(+m[1], +m[2] - 1, +m[3], 12) : new Date(iso);
+    return isNaN(d.getTime()) ? null : { d: d, soloDia: !!m };
+  }
+
+  /* "vie 20/11 15:55"; sin hora si la fuente solo da el día. */
+  function fmtFecha(iso, conDia) {
+    var f = aFecha(iso);
+    if (!f) return '';
+    var txt = (conDia ? DIAS[f.d.getDay()] + ' ' : '') + f.d.getDate() + '/' + (f.d.getMonth() + 1);
+    if (!f.soloDia) txt += ' ' + dosDigitos(f.d.getHours()) + ':' + dosDigitos(f.d.getMinutes());
+    return txt;
+  }
+
+  /* "vie 20/11", siempre en la hora del teléfono. */
+  function fmtDia(iso) {
+    var f = aFecha(iso);
+    return f ? DIAS[f.d.getDay()] + ' ' + f.d.getDate() + '/' + (f.d.getMonth() + 1) : '';
+  }
+
+  /* ---------- Cotizaciones ---------- */
+
+  function unPar(v, clave) {
+    if (!v || typeof v !== 'object') return null;
+    var compra = Number(v.compra);
+    var venta = Number(v.venta != null ? v.venta : v.venda);
+    if (!(compra > 0) && !(venta > 0)) return null;
+    if (!(compra > 0)) compra = venta;
+    if (!(venta > 0)) venta = compra;
+    var r = RANGOS[clave];
+    if (compra < r[0] || compra > r[1] || venta < r[0] || venta > r[1]) return null;
+    var tipo = v.tipo === 'mercado' || v.tipo === 'cruce' ? v.tipo : 'oficial';
+    return {
+      compra: compra,
+      venta: venta,
+      fecha: normFecha(v.fecha || v.fechaActualizacion || v.dataAtualizacao),
+      tipo: tipo
+    };
+  }
+
+  /* Valida lo que llega de la base, de la red o de la memoria del navegador.
+     Si falta un solo par lo calcula por cruce; si los tres no cierran entre sí, descarta todo. */
+  function normalizar(o) {
+    if (!o || typeof o !== 'object') return null;
+    var r = {};
+    var faltan = [];
+    PARES.forEach(function (k) {
+      var p = unPar(o[k], k);
+      if (p) r[k] = p; else faltan.push(k);
+    });
+    if (faltan.length > 1) return null;
+    if (faltan.length === 1) {
+      var f = faltan[0];
+      if (f === 'usdbrl') {
+        r.usdbrl = { compra: r.usdars.compra / r.brlars.venta, venta: r.usdars.venta / r.brlars.compra };
+      } else if (f === 'brlars') {
+        r.brlars = { compra: r.usdars.compra / r.usdbrl.venta, venta: r.usdars.venta / r.usdbrl.compra };
+      } else {
+        r.usdars = { compra: r.brlars.compra * r.usdbrl.compra, venta: r.brlars.venta * r.usdbrl.venta };
+      }
+      r[f].fecha = null;
+      r[f].tipo = 'cruce';
+    } else {
+      var cierre = r.usdars.venta / (r.brlars.venta * r.usdbrl.venta);
+      if (!(cierre > 0.85 && cierre < 1.15)) return null;
+    }
+    r.cargado = normFecha(o.cargado);
+    return r;
+  }
+
+  function convertir(monto, base, cotiz, modo) {
+    var usdars = cotiz.usdars[modo];
+    var brlars = cotiz.brlars[modo];
+    var usdbrl = cotiz.usdbrl[modo];
+    if (base === 'USD') return { USD: monto, BRL: monto * usdbrl, ARS: monto * usdars };
+    if (base === 'BRL') return { USD: monto / usdbrl, BRL: monto, ARS: monto * brlars };
+    return { USD: monto / usdars, BRL: monto / brlars, ARS: monto };
+  }
+
+  function masNueva(cotiz) {
+    var mejor = null;
+    PARES.forEach(function (k) {
+      var f = aFecha(cotiz[k].fecha);
+      if (f && (!mejor || f.d.getTime() > mejor.ms)) mejor = { ms: f.d.getTime(), iso: cotiz[k].fecha };
+    });
+    if (!mejor) {
+      var c = aFecha(cotiz.cargado);
+      if (c) mejor = { ms: c.d.getTime(), iso: cotiz.cargado };
+    }
+    return mejor;
+  }
+
+  /* ---------- Estado y memoria del navegador ---------- */
+
+  var estado = {
+    base: 'USD',
+    crudo: '1',
+    modo: 'venta',
+    cotiz: null,
+    origen: null,      /* 'db' | 'red' | 'memoria' */
+    cargando: true,
+    sinDatos: false
+  };
+  var enClaude = false;
+  var dbIntentada = false;
+  var reintentoDb = false;
+  var ultimoIntento = 0;
+  var previo = {};
+
+  function leer(clave) {
+    try { return JSON.parse(window.localStorage.getItem(clave)); } catch (e) { return null; }
+  }
+  function guardar(clave, valor) {
+    try { window.localStorage.setItem(clave, JSON.stringify(valor)); } catch (e) { /* sin almacenamiento: sigue igual */ }
+  }
+  function guardarEstado() {
+    guardar(CLAVE_ESTADO, { base: estado.base, crudo: estado.crudo, modo: estado.modo });
+  }
+  function recuperar() {
+    var e = leer(CLAVE_ESTADO);
+    if (e && typeof e === 'object') {
+      if (ORDEN.indexOf(e.base) >= 0) estado.base = e.base;
+      if (e.modo === 'venta' || e.modo === 'compra') estado.modo = e.modo;
+      if (typeof e.crudo === 'string' && /^\d{0,12}(,\d{0,6})?$/.test(e.crudo)) estado.crudo = e.crudo;
+    }
+    var c = normalizar(leer(CLAVE_COTIZ));
+    if (c) { estado.cotiz = c; estado.origen = 'memoria'; }
+  }
+
+  /* ---------- Pantalla ---------- */
+
+  var $estado = document.getElementById('estado');
+  var $estadoTexto = document.getElementById('estado-texto');
+  var $aviso = document.getElementById('aviso');
+  var $ayuda = document.getElementById('modo-ayuda');
+  var $cuerpo = document.getElementById('pizarra-cuerpo');
+  var $actualizar = document.getElementById('actualizar');
+  var $modos = {
+    venta: document.getElementById('modo-venta'),
+    compra: document.getElementById('modo-compra')
+  };
+  var $cols = {
+    venta: document.getElementById('col-venta'),
+    compra: document.getElementById('col-compra')
+  };
+  var campos = {};
+  var filas = {};
+  var borrar = {};
+  ORDEN.forEach(function (m) {
+    campos[m] = document.getElementById('monto-' + m);
+    filas[m] = document.querySelector('.fila[data-moneda="' + m + '"]');
+    borrar[m] = document.getElementById('borrar-' + m);
+  });
+
+  var lienzo = null;
+  try { lienzo = document.createElement('canvas').getContext('2d'); } catch (e) { lienzo = null; }
+
+  /* Achica la letra de un importe largo para que entre en su fila (nunca menos de 16px). */
+  function ajustar(el) {
+    el.style.fontSize = '';
+    if (!lienzo) return;
+    var cs = window.getComputedStyle(el);
+    var base = parseFloat(cs.fontSize) || 30;
+    var ancho = el.clientWidth;
+    var texto = el.value || '';
+    if (!ancho || !texto) return;
+    lienzo.font = cs.fontWeight + ' ' + base + 'px ' + cs.fontFamily;
+    var espaciado = parseFloat(cs.letterSpacing) || 0;
+    var necesita = lienzo.measureText(texto).width + espaciado * texto.length + 3;
+    if (necesita > ancho) el.style.fontSize = Math.max(16, Math.floor(base * ancho / necesita)) + 'px';
+  }
+
+  function poner(m, texto) {
+    var el = campos[m];
+    if (el.value !== texto) el.value = texto;
+    previo[m] = texto;
+    ajustar(el);
+  }
+
+  function pintarMontos() {
+    var monto = aNumero(estado.crudo);
+    var res = estado.cotiz && monto != null ? convertir(monto, estado.base, estado.cotiz, estado.modo) : null;
+    ORDEN.forEach(function (m) {
+      filas[m].classList.toggle('es-base', m === estado.base);
+      filas[m].classList.toggle('con-monto', m === estado.base && !!estado.crudo);
+      if (m === estado.base) {
+        if (document.activeElement !== campos[m]) poner(m, aTexto(estado.crudo));
+        else ajustar(campos[m]);
+      } else {
+        poner(m, res ? fmtMonto(res[m]) : '');
+      }
+    });
+  }
+
+  function pintarModo() {
+    ['venta', 'compra'].forEach(function (k) {
+      var activo = estado.modo === k;
+      $modos[k].setAttribute('aria-pressed', activo ? 'true' : 'false');
+      $cols[k].classList.toggle('activa', activo);
+    });
+    $ayuda.textContent = estado.modo === 'venta'
+      ? 'Precio al que te venden dólares o reales.'
+      : 'Precio al que te compran dólares o reales.';
+  }
+
+  function celda(valor, activa) {
+    var td = document.createElement('td');
+    td.textContent = valor;
+    if (activa) td.className = 'activa';
+    return td;
+  }
+
+  function pintarPizarra() {
+    var c = estado.cotiz;
+    $cuerpo.textContent = '';
+    FILAS.forEach(function (f) {
+      var p = c ? c[f.par] : null;
+      var tr = document.createElement('tr');
+      var th = document.createElement('th');
+      th.scope = 'row';
+      var nombre = f.oficial;
+      var marca = '';
+      if (p && p.tipo === 'mercado') { nombre = 'Dólar comercial'; marca = 'mercado'; }
+      if (p && p.tipo === 'cruce') { nombre = f.simple; marca = 'cruce'; }
+      th.appendChild(document.createTextNode(nombre));
+      if (marca) {
+        th.appendChild(document.createTextNode(' '));
+        var chip = document.createElement('span');
+        chip.className = 'marca';
+        chip.textContent = marca;
+        th.appendChild(chip);
+      }
+      var sub = document.createElement('span');
+      sub.className = 'sub';
+      var fecha = p ? fmtFecha(p.fecha, true) : '';
+      sub.textContent = f.en + (fecha ? ' · ' + fecha : '');
+      th.appendChild(sub);
+      tr.appendChild(th);
+      tr.appendChild(celda(p ? fmtCotiz(p.compra) : '—', estado.modo === 'compra'));
+      tr.appendChild(celda(p ? fmtCotiz(p.venta) : '—', estado.modo === 'venta'));
+      $cuerpo.appendChild(tr);
+    });
+  }
+
+  function pintarEstado() {
+    var c = estado.cotiz;
+    var tono = 'neutro';
+    var texto;
+    var aviso = '';
+    if (!c) {
+      if (estado.cargando) {
+        texto = 'Cargando cotizaciones…';
+      } else {
+        tono = 'alerta';
+        texto = 'Sin cotizaciones';
+        if (estado.sinDatos) aviso = 'Todavía no hay cotizaciones cargadas en esta página.';
+        else if (enClaude) aviso = 'No pude cargar las cotizaciones. Abrí la página con tu sesión de Claude iniciada y volvé a probar.';
+        else aviso = 'No pude traer las cotizaciones. Revisá tu conexión y tocá Actualizar cotizaciones.';
+      }
+    } else {
+      var ultima = masNueva(c);
+      var vieja = ultima ? Date.now() - ultima.ms > VENCE_MS : true;
+      var dia = ultima ? fmtDia(ultima.iso) : '';
+      if (estado.origen === 'memoria' && estado.cargando) {
+        texto = 'Actualizando…';
+      } else if (estado.origen === 'memoria') {
+        tono = 'alerta';
+        texto = 'Sin conexión · datos del ' + dia;
+      } else if (vieja) {
+        tono = 'alerta';
+        texto = 'Sin actualizar desde el ' + dia;
+      } else {
+        tono = 'ok';
+        texto = 'Actualizado ' + fmtFecha(c.cargado || (ultima && ultima.iso), false);
+      }
+    }
+    $estado.setAttribute('data-tono', tono);
+    $estadoTexto.textContent = texto;
+    $aviso.hidden = !aviso;
+    $aviso.textContent = aviso;
+  }
+
+  function pintar() {
+    pintarEstado();
+    pintarModo();
+    pintarPizarra();
+    pintarMontos();
+  }
+
+  /* ---------- Carga de cotizaciones ---------- */
+
+  function aplicar(cotiz, origen) {
+    estado.cotiz = cotiz;
+    estado.origen = origen;
+    estado.cargando = false;
+    estado.sinDatos = false;
+    guardar(CLAVE_COTIZ, cotiz);
+    pintar();
+  }
+
+  function fallar(sinDatos) {
+    estado.cargando = false;
+    estado.sinDatos = !!sinDatos;
+    pintar();
+  }
+
+  /* Dentro de Claude la página no puede salir a internet: lee el documento
+     cotizaciones/actual de su base y se entera sola cuando cambia. */
+  function conectarDb() {
+    dbIntentada = true;
+    var pedido;
+    try { pedido = window.claude.use('db'); } catch (e) { return Promise.resolve(false); }
+    return Promise.resolve(pedido).then(function (db) {
+      if (!db) return false;
+      var ref;
+      try { ref = db.doc(DOC_COTIZ); } catch (e) { return false; }
+      var reloj = window.setTimeout(function () {
+        reloj = null;
+        if (estado.origen !== 'db') fallar(false);
+      }, 10000);
+      function soltarReloj() {
+        if (reloj) { window.clearTimeout(reloj); reloj = null; }
+      }
+      ref.onSnapshot(function (snap) {
+        var firme = !(snap.metadata && snap.metadata.fromCache);
+        if (firme) soltarReloj();
+        var c = snap.exists ? normalizar(snap.data()) : null;
+        if (c) aplicar(c, 'db');
+        else if (firme) fallar(!snap.exists);
+      }, function () {
+        soltarReloj();
+        fallar(false);
+      });
+      return true;
+    }, function () { return false; });
+  }
+
+  function pedir(url) {
+    var corte = typeof AbortController === 'function' ? new AbortController() : null;
+    var reloj = window.setTimeout(function () { if (corte) corte.abort(); }, 9000);
+    return window.fetch(url, { cache: 'no-store', signal: corte ? corte.signal : undefined })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (j) { window.clearTimeout(reloj); return j; },
+            function (e) { window.clearTimeout(reloj); throw e; });
+  }
+
+  /* Último valor de una serie del Banco Central do Brasil (1 = PTAX venta, 10813 = PTAX compra). */
+  function ultimoPtax(serie) {
+    return pedir('https://api.bcb.gov.br/dados/serie/bcdata.sgs.' + serie + '/dados/ultimos/1?formato=json')
+      .then(function (lista) {
+        var x = lista && lista[lista.length - 1];
+        var v = x ? Number(x.valor) : NaN;
+        if (!(v > 0)) throw new Error('PTAX sin dato');
+        return { valor: v, fecha: x.data };
+      });
+  }
+
+  function resuelto(promesa) {
+    return promesa.then(function (v) { return { ok: true, valor: v }; }, function () { return { ok: false }; });
+  }
+
+  /* Fuera de Claude la página consulta las fuentes directo, cada vez que se abre. */
+  function traerDeRed() {
+    return Promise.all([
+      resuelto(pedir('https://dolarapi.com/v1/dolares/oficial')),
+      resuelto(pedir('https://dolarapi.com/v1/cotizaciones/brl')),
+      resuelto(Promise.all([ultimoPtax(10813), ultimoPtax(1)]))
+    ]).then(function (res) {
+      var o = { cargado: new Date().toISOString() };
+      if (res[0].ok) o.usdars = res[0].valor;
+      if (res[1].ok) o.brlars = res[1].valor;
+      if (res[2].ok) {
+        o.usdbrl = { compra: res[2].valor[0].valor, venta: res[2].valor[1].valor, fecha: res[2].valor[1].fecha };
+        return o;
+      }
+      /* Sin PTAX: dólar comercial de DolarApi Brasil, marcado como "mercado". */
+      return pedir('https://br.dolarapi.com/v1/cotacoes/usd').then(function (m) {
+        o.usdbrl = { compra: m.compra, venta: m.venda, fecha: m.dataAtualizacao, tipo: 'mercado' };
+        return o;
+      }, function () { return o; });
+    }).then(normalizar);
+  }
+
+  /* Si el entorno de Claude aparece después del arranque, pasa a usar su base. */
+  function pasarADb() {
+    if (dbIntentada || !(window.claude && typeof window.claude.use === 'function')) return false;
+    enClaude = true;
+    $actualizar.hidden = true;
+    estado.cargando = true;
+    pintarEstado();
+    conectarDb().then(function (ok) { if (!ok) fallar(false); });
+    return true;
+  }
+
+  function actualizarDeRed() {
+    ultimoIntento = Date.now();
+    estado.cargando = true;
+    $actualizar.disabled = true;
+    $actualizar.textContent = 'Actualizando…';
+    pintarEstado();
+    function cerrar() {
+      $actualizar.disabled = false;
+      $actualizar.textContent = 'Actualizar cotizaciones';
+    }
+    return traerDeRed().then(function (c) {
+      cerrar();
+      if (c) { aplicar(c, 'red'); return; }
+      if (pasarADb()) return;
+      fallar(false);
+      if (!reintentoDb) {
+        reintentoDb = true;
+        window.setTimeout(pasarADb, 2000);
+      }
+    }, function () {
+      cerrar();
+      fallar(false);
+    });
+  }
+
+  /* ---------- Eventos ---------- */
+
+  ORDEN.forEach(function (m) {
+    var el = campos[m];
+
+    el.addEventListener('input', function (ev) {
+      var dato = ev && typeof ev.data === 'string' ? ev.data : null;
+      var r = limpiar(el.value, el.selectionStart, previo[m] || '', dato);
+      el.value = r.texto;
+      previo[m] = r.texto;
+      try { el.setSelectionRange(r.cursor, r.cursor); } catch (e) { /* sin selección programable */ }
+      estado.base = m;
+      estado.crudo = r.crudo;
+      guardarEstado();
+      pintarMontos();
+    });
+
+    el.addEventListener('paste', function (ev) {
+      var portapapeles = ev.clipboardData || window.clipboardData;
+      var crudo = dePegado(portapapeles ? portapapeles.getData('text') : '');
+      ev.preventDefault();
+      if (crudo == null) return;
+      el.value = aTexto(crudo);
+      previo[m] = el.value;
+      estado.base = m;
+      estado.crudo = crudo;
+      guardarEstado();
+      pintarMontos();
+    });
+
+    el.addEventListener('focus', function () {
+      previo[m] = el.value;
+      window.setTimeout(function () {
+        if (document.activeElement !== el) return;
+        try { el.setSelectionRange(0, el.value.length); } catch (e) { /* sin selección programable */ }
+      }, 0);
+    });
+
+    el.addEventListener('blur', function () {
+      if (estado.base !== m) return;
+      if (/,$/.test(estado.crudo)) {
+        estado.crudo = estado.crudo.slice(0, -1);
+        guardarEstado();
+      }
+      poner(m, aTexto(estado.crudo));
+    });
+
+    el.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') el.blur();
+    });
+
+    filas[m].addEventListener('click', function (ev) {
+      var t = ev.target;
+      if (t !== el && !(t.closest && t.closest('label, .borrar'))) el.focus();
+    });
+
+    /* La cruz vacía el importe sin cerrar el teclado. */
+    borrar[m].addEventListener('mousedown', function (ev) { ev.preventDefault(); });
+    borrar[m].addEventListener('click', function () {
+      estado.base = m;
+      estado.crudo = '';
+      guardarEstado();
+      el.value = '';
+      previo[m] = '';
+      pintarMontos();
+      el.focus();
+    });
+  });
+
+  ['venta', 'compra'].forEach(function (k) {
+    $modos[k].addEventListener('click', function () {
+      if (estado.modo === k) return;
+      estado.modo = k;
+      guardarEstado();
+      pintarModo();
+      pintarPizarra();
+      pintarMontos();
+    });
+  });
+
+  $actualizar.addEventListener('click', function () { actualizarDeRed(); });
+
+  document.addEventListener('visibilitychange', function () {
+    if (enClaude || document.visibilityState !== 'visible') return;
+    if (Date.now() - ultimoIntento > REINTENTO_MS) actualizarDeRed();
+  });
+
+  window.addEventListener('resize', function () {
+    ORDEN.forEach(function (m) { ajustar(campos[m]); });
+  });
+  if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+    document.fonts.ready.then(function () {
+      ORDEN.forEach(function (m) { ajustar(campos[m]); });
+    });
+  }
+
+  /* ---------- Arranque ---------- */
+
+  recuperar();
+  pintar();
+  enClaude = !!(window.claude && typeof window.claude.use === 'function');
+  if (enClaude) {
+    conectarDb().then(function (ok) { if (!ok) fallar(false); });
+  } else {
+    $actualizar.hidden = false;
+    actualizarDeRed();
+  }
+})();
+</script>
+</body>
+</html>
